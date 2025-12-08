@@ -72,4 +72,4 @@ Pagination is efficient and server-side (offset-based).
     ```bash
     npm run dev
     ```
-    *Application will open at http://localhost:5173*
+    *Application will open at [http://localhost:5173](https://retail-sales-system-sable.vercel.app/)*
