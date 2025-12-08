@@ -1,0 +1,36 @@
+# General
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Backend (Python)
+backend/__pycache__/
+backend/*.pyc
+backend/myvenv/
+backend/env/
+backend/.env
+backend/.pytest_cache/
+
+# Frontend (Node.js/React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/npm-debug.log
+frontend/yarn-error.log
+
+# System files
+Thumbs.db
+
+# --- DATA FILES (DO NOT UPLOAD) ---
+backend/truestate_assignment_dataset.csv
+backend/*.csv
+
+
+# Block all CSVs to be safe
+*.csv
+backend/*.csv
+root/backend/*.csv
+truestate_assignment_dataset.csv
