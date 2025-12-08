@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = ' https://truestate-backend-qhfb.onrender.com/api';
 
 // 1. Fetch Sales (Used for the Table)
 export const fetchSales = async (params) => {
