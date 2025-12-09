@@ -3,6 +3,10 @@ from typing import List, Optional
 from src.services.sales_service import get_filtered_sales, create_sale
 from src.models.schemas import PaginatedResponse, SaleCreate, SaleResponse
 from src.services.ml_service import predictor
+from src.services.sales_service import get_filtered_sales, create_sale, get_sales_stats
+# from fastapi import APIRouter, Query # <--- Make sure Query is imported
+# from typing import List, Optional
+# from src.services.sales_service import get_filtered_sales, create_sale, get_sales_stats
 
 router = APIRouter()
 
@@ -32,30 +36,21 @@ async def add_sale(sale: SaleCreate):
     return await create_sale(sale)
 
 
+from fastapi import APIRouter, Query # <--- Make sure Query is imported
+from typing import List, Optional
+from src.services.sales_service import get_filtered_sales, create_sale, get_sales_stats
+
+# ... (other code)
+
 @router.get("/sales/stats")
-async def read_stats():
-    pipeline = [
-        {
-            "$group": {
-                "_id": None,
-                "total_revenue": {"$sum": "$total_amount"},
-                "total_orders": {"$sum": 1},
-                "avg_order_value": {"$avg": "$total_amount"}
-            }
-        }
-    ]
-    cursor = sales_collection.aggregate(pipeline)
-    stats = await cursor.to_list(length=1)
-    
-    if not stats:
-        return {"total_revenue": 0, "total_orders": 0, "avg_order_value": 0}
-        
-    result = stats[0]
-    return {
-        "total_revenue": round(result["total_revenue"], 2),
-        "total_orders": result["total_orders"],
-        "avg_order_value": round(result["avg_order_value"], 2)
-    }
+async def read_stats(
+    search: Optional[str] = None,
+    # Query(None) is required for receiving lists like ?region=North&region=South
+    region: Optional[List[str]] = Query(None), 
+    gender: Optional[List[str]] = Query(None),
+    category: Optional[List[str]] = Query(None)
+):
+    return await get_sales_stats(search, region, gender, category)
 
 @router.get("/sales/predict")
 async def predict_sales_value(quantity: int):
