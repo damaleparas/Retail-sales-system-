@@ -47,10 +47,19 @@ export const addSale = async (saleData) => {
     }
 };
 
-// 4. Get Dashboard Stats
-export const fetchStats = async () => {
+// 4. Get Dashboard Stats (Now with Filters!)
+export const fetchStats = async (filters) => { // <--- Accept filters argument
     try {
-        const response = await axios.get(`${API_URL}/sales/stats`);
+        const response = await axios.get(`${API_URL}/sales/stats`, {
+            params: {
+                search: filters?.search || '',
+                region: filters?.region || [],
+                gender: filters?.gender || [],
+                category: filters?.category || []
+            },
+            // This ensures arrays are sent as ?region=North&region=South (FastAPI format)
+            paramsSerializer: { indexes: null } 
+        });
         return response.data;
     } catch (error) {
         console.error("Stats Error", error);
